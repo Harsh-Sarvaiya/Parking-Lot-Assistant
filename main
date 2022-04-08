@@ -15,51 +15,50 @@ void setup() {
  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
 }
 void loop() {
- // Clears the trigPin
- digitalWrite(trigPin, LOW);
- delayMicroseconds(2);
- digitalWrite(trigPin, HIGH);
- delayMicroseconds(10);
- digitalWrite(trigPin, LOW);
- duration = pulseIn(echoPin, HIGH);
- distanceCm = duration * 0.034 / 2;
- distanceInch = duration * 0.0113 / 2;
+    // Clears the trigPin
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+    duration = pulseIn(echoPin, HIGH);
+    distanceCm = duration * 0.034 / 2;
+    distanceInch = duration * 0.0113 / 2;
 
 
+    if (numOfCars >= 0 && numOfCars < 69){
+        if(distanceCm > 6.00 && distanceCm < 8.00) {
+            numOfCars++;
+        }
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("Cars: ");
+        lcd.print(numOfCars);
+        if (distanceCm > 1.00 && distanceCm < 3.00){
+            numOfCars--;
+        }
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("Cars: ");
+        lcd.print(numOfCars);
+    }
+    if (numOfCars == 69){
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("This Parking Lot");
+        lcd.setCursor(0,1);
+        lcd.print("is Full!");
+        if (distanceCm > 1.00 && distanceCm < 3.00){
+        numOfCars--;
+      }
+    }
+    if(numOfCars == -1){
+        numOfCars = 0;
+    }
 
-  if (numOfCars >= 0 && numOfCars < 69){
-if(distanceCm > 6.00 && distanceCm < 8.00) {
-  numOfCars++;
-}
-lcd.clear();
-lcd.setCursor(0,0); 
-lcd.print("Cars: "); 
-lcd.print(numOfCars);
-if (distanceCm > 1.00 && distanceCm < 3.00){
-  numOfCars--;
-}
-lcd.clear();
-lcd.setCursor(0,0); 
-lcd.print("Cars: "); 
-lcd.print(numOfCars);
-}
-if (numOfCars == 69){
-    lcd.clear();
-    lcd.setCursor(0,0);
-    lcd.print("This Parking Lot");
+    delay(50);
     lcd.setCursor(0,1);
-    lcd.print("is Full!");
-    if (distanceCm > 1.00 && distanceCm < 3.00){
-    numOfCars--;
-  }
-}
-if(numOfCars == -1){
-  numOfCars = 0;
-}
-
- delay(50);
- lcd.setCursor(0,1);
- delay(10);
+    delay(10);
 
 //  while(1){
 //    tone(8, 698, durationn); // F4
@@ -81,4 +80,4 @@ if(numOfCars == -1){
 //    tone(8, 1047, durationn);//C5
 //    delay(500);
 //  }
-} 
+}
