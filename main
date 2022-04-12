@@ -39,30 +39,32 @@ void loop() {
 
 //DISPLAY
     // CHANGE COUNT FROM POSITION
-    if(abs(distanceCm_t - distanceCm > 5) ){
-        if((distanceCm >= 10 && distanceCm <= 20)) {
-            numOfCars++;
-        } else if(distanceCm >= 1.00 && distanceCm <= 8){
-            numOfCars--;
-        }
-        // CLEAR LCD
-        lcd.clear();
-        lcd.setCursor(0,0);
-        lcd.print("Cars: ");
-
-        // EDGE CASE HANDLING
-        // TELL USER FULL OR CORRECT -1
-        if(numOfCars == 65){
-            lcd.print("FULL");
-        }else if(numOfCars > 65){
-            numOfCars = 65;
-        }else if(numOfCars <= -1){
-            numOfCars = 0;
-        }else{
-            lcd.print(numOfCars);
-        }
-        int distanceCm_t = distanceCm; // USED TO PREVENT DUPLICATE CARS
-
-        delay(1000);
+    if((distanceCm >= 10 && distanceCm <= 20)) {
+        numOfCars++;
+    } else if(distanceCm >= 1.00 && distanceCm <= 8){
+        numOfCars--;
     }
+
+    // CLEAR LCD
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Cars: ");
+
+    // EDGE CASE HANDLING
+    // TELL USER FULL OR CORRECT -1
+    if(numOfCars == 65){
+        lcd.print("FULL");
+    }else if(numOfCars > 65){
+        numOfCars = 65;
+        lcd.print("OVERFLOW");
+        delay(500);
+        lcd.print("FULL");
+    }else if(numOfCars <= -1){
+        numOfCars = 0;
+    }else{
+        lcd.print(numOfCars);
+    }
+    int distanceCm_t = distanceCm; // USED TO PREVENT DUPLICATE CARS
+
+    delay(1000);
 }
