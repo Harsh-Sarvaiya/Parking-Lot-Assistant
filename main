@@ -6,8 +6,8 @@ const int echoPin = 10;
 
 // NUMBER OF CARS MAX/MIN
 const int carsMin = 0;
-const int carsMax = 65;
-int numOfCars = 0;
+const int carsMax = 60;
+int numOfCars = 58;
 
 //int d = 250; << IS THIS VALUE USED?
 
@@ -48,16 +48,12 @@ void loop() {
     // CLEAR LCD
     lcd.clear();
     lcd.setCursor(0,0);
-    lcd.print("Cars: ");
+    lcd.print("FREE SPACES: ");
 
     // EDGE CASE HANDLING
     // TELL USER FULL OR CORRECT -1
-    if(numOfCars == 65){
-        lcd.print("FULL");
-    }else if(numOfCars > 65){
-        numOfCars = 65;
-        lcd.print("OVERFLOW");
-        delay(500);
+    if(numOfCars => carsMax){
+        numOfCars = carsMax;
         lcd.print("FULL");
     }else if(numOfCars <= -1){
         numOfCars = 0;
