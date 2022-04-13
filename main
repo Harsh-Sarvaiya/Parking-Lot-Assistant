@@ -3,82 +3,64 @@ LiquidCrystal lcd(1,3,4,5,6,7);
 // defines pins numbers
 const int trigPin = 9;
 const int echoPin = 10;
-int numOfCars;
-int durationn = 400;
-int d = 250;
-// defines variables
+
+// NUMBER OF CARS MAX/MIN
+const int carsMin = 0;
+const int carsMax = 60;
+int numOfCars = 58;
+
+//int d = 250; << IS THIS VALUE USED?
+
+// DURATION FOR ULTA SONIC PULSE
 long duration;
-int distanceCm, distanceInch;
+
+// UNIT CONVERSION VARIABLES
+int distanceCm = 0;
+int distanceInch = 0;
+int distanceCm_t = distanceCm; // USED TO PREVENT DUPLICATE CARS
+
 void setup() {
- lcd.begin(16,2);
- pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
- pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+    lcd.begin(16,2);
+    pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+    pinMode(echoPin, INPUT); // Sets the echoPin as an Input
 }
+
+
 void loop() {
- // Clears the trigPin
- digitalWrite(trigPin, LOW);
- delayMicroseconds(2);
- digitalWrite(trigPin, HIGH);
- delayMicroseconds(10);
- digitalWrite(trigPin, LOW);
- duration = pulseIn(echoPin, HIGH);
- distanceCm = duration * 0.034 / 2;
- distanceInch = duration * 0.0113 / 2;
+    // Clears the trigPin
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+    duration = pulseIn(echoPin, HIGH);
+    distanceCm = duration * 0.034 / 2;
+    distanceInch = duration * 0.0113 / 2;
 
+//DISPLAY
+    // CHANGE COUNT FROM POSITION
+    if((distanceCm >= 10 && distanceCm <= 20)) {
+        numOfCars++;
+    } else if(distanceCm >= 1.00 && distanceCm <= 8){
+        numOfCars--;
+    }
 
-
-  if (numOfCars >= 0 && numOfCars < 69){
-if(distanceCm > 6.00 && distanceCm < 8.00) {
-  numOfCars++;
-}
-lcd.clear();
-lcd.setCursor(0,0); 
-lcd.print("Cars: "); 
-lcd.print(numOfCars);
-if (distanceCm > 1.00 && distanceCm < 3.00){
-  numOfCars--;
-}
-lcd.clear();
-lcd.setCursor(0,0); 
-lcd.print("Cars: "); 
-lcd.print(numOfCars);
-}
-if (numOfCars == 69){
+    // CLEAR LCD
     lcd.clear();
     lcd.setCursor(0,0);
-    lcd.print("This Parking Lot");
-    lcd.setCursor(0,1);
-    lcd.print("is Full!");
-    if (distanceCm > 1.00 && distanceCm < 3.00){
-    numOfCars--;
-  }
-}
-if(numOfCars == -1){
-  numOfCars = 0;
-}
+    lcd.print("FREE SPACES: ");
 
- delay(50);
- lcd.setCursor(0,1);
- delay(10);
+    // EDGE CASE HANDLING
+    // TELL USER FULL OR CORRECT -1
+    if(numOfCars => carsMax){
+        numOfCars = carsMax;
+        lcd.print("FULL");
+    }else if(numOfCars <= -1){
+        numOfCars = 0;
+    }else{
+        lcd.print(numOfCars);
+    }
+    int distanceCm_t = distanceCm; // USED TO PREVENT DUPLICATE CARS
 
-//  while(1){
-//    tone(8, 698, durationn); // F4
-//    delay(d);
-//    tone(8, 523, durationn); // C4
-//    delay(700);
-//    tone(8, 831, durationn); //G4 sharp
-//    delay(d);
-//    tone(8, 523, durationn);
-//    delay(700);
-//    tone(8, 784, durationn); //G4
-//    delay(d);
-//    tone(8, 523, durationn);
-//    delay(700);
-//    tone(8, 698, durationn);
-//    delay(d);
-//    tone(8, 523, durationn);
-//    delay(d);
-//    tone(8, 1047, durationn);//C5
-//    delay(500);
-//  }
-} 
+    delay(1000);
+}
